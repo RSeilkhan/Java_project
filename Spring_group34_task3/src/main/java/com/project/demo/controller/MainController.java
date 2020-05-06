@@ -51,7 +51,7 @@ public class MainController {
 
 
     //invites
-    @RequestMapping("/deleteinvite/{user_id}")
+   /* @RequestMapping("/deleteinvite/{user_id}")
     public String deleteInvite(@PathVariable("user_id") Long id, Model model, Principal principal) {
         // 1
         String email = principal.getName();
@@ -143,7 +143,7 @@ public class MainController {
         return "redirect:/users/".concat(string_person_to_connect_id);
     }
 
-
+*/
 
 
 
