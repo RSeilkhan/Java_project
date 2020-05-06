@@ -1,0 +1,186 @@
+<html xmlns:th="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorator="layouts/main.html">
+<title layout:fragment="title">News</title>
+<div layout:fragment = "contentPart">
+
+
+
+    <h5 align="center">LIST OF USERS</h5>
+    <br>
+
+    <script>
+
+        function age_filter() {
+            var min = parseInt( $('#min').val(), 10 );
+            var max = parseInt( $('#max').val(), 10 );
+            $('#myTable tbody tr').each(function() {
+                var age = parseFloat( $('td:eq(2)', this).text() ) || 0;
+                if (( isNaN( min ) && isNaN( max )) ||
+                    ( isNaN( min ) && age <= max ) ||
+                    ( min <= age   && isNaN( max )) ||
+                    ( min <= age   && age <= max )) {
+                    $(this).show()
+                } else {
+                    $(this).hide()
+                }
+            })
+        };
+    </script>
+
+    <script>
+
+        function age_filter1() {
+            var filter, table, tr, td, i, txtValue;
+            var min = document.getElementById("min");
+            var max = document.getElementById("max");
+            table = document.getElementById("myTable");
+            tr = table.getElementsByTagName("tr");
+
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[2];
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    if (( isNaN( min ) && isNaN( max )) ||
+                        ( isNaN( min ) && td <= max ) ||
+                        ( min <= td   && isNaN( max )) ||
+                        ( min <= td   && td <= max )) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        };
+    </script>
+
+
+
+
+
+
+    <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for city..">
+    <script>
+        function myFunction() {
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("myInput");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("myTable");
+            tr = table.getElementsByTagName("tr");
+
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[6];
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+    </script>
+
+
+
+    <table border="0" cellspacing="5" cellpadding="5" >
+        <tbody><tr>
+            <td>Minimum age:</td>
+            <td><input type="text" id="min" name="min" onkeyup="age_filter1"></td>
+        </tr>
+        <tr>
+            <td>Maximum age:</td>
+            <td><input type="text" id="max" name="max" onkeyup="age_filter1"></td>
+        </tr>
+        </tbody></table>
+
+
+    <div align="left" sclass="display" style = "margin-left: 10px!Important">
+        <table class="table" id="myTable">
+            <thead>
+            <tr>
+                <th scope="col">Email</th>
+                <th scope="col">Name</th>
+                <th scope="col">Surname</th>
+                <th scope="col">Age</th>
+                <th scope="col">Number</th>
+                <th scope="col">About</th>
+                <th scope="col">Gender</th>
+                <th scope="col">City</th>
+                <th scope="col">Profile Image</th>
+                <th scope="col">Profile</th>
+
+
+
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="u : ${allUsers}">
+                <th  th:text="${u.email}"></th>
+                <td th:text="${u.name}"></td>
+                <td th:text="${u.surname}"></td>
+                <td th:text="${u.birthday}"></td>
+                <td th:text="${u.tel_number}"></td>
+                <td th:text="${u.about}"></td>
+                <td th:text="${u.gender}"></td>
+                <td th:text="${u.city}"></td>
+
+                <td><img width="193" height="130" th:src="${u.avatar}"></img></td>
+                <td>
+                    <a class="btn btn-primary btn-lg"  th:href="@{'users/'+${u.email}}" role="button"  th:text = "#{label.page}"></a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+    <!--<div class="col-12 content mt-5" style="margin:auto" sec:authorize="hasRole('ROLE_MODERATOR')">
+        <form th:action="${'/addPost'}" method="post">
+            <div class="form-group">
+                <br>
+                <label for="exampleFormControlInput1">Tittle</label>
+                <input type="text" name="title" class="form-control" id="exampleFormControlInput1">
+            </div>
+            <div class="form-group">
+                <label>Short description</label>
+                <input class="form-control" name="shortContent" rows="2">
+            </div>
+            <div class="form-group">
+                <label>Content</label>
+                <input class="form-control" name="content" rows="3">
+            </div>
+            <div style="text-align: right">
+                <button class="btn btn-outline-success html-editor-align-right" th:text = "#{label.addpost}"></button>
+            </div>
+        </form>
+    </div>
+
+
+
+     <div class="content " th:each="post : ${allNews}">
+
+            <h1 class="display-6" style="margin-top: 10px" th:text="${post.title}"></h1>
+            <p class="lead " th:text="${post.shortContent}"></p>
+            <hr>
+            <p  th:text = "#{label.date}">By: <span th:text="${post.author.name}"></span> : <span th:text="${post.postDate}"></span></p>
+            <a class="btn btn-primary btn-lg" style="margin-bottom: 10px" th:href="@{'newsPage/'+${post.id}}" role="button"  th:text = "#{label.more}"></a>
+            <br>
+        </hr>
+    </div>-->
+
+
+</div>
+</html>

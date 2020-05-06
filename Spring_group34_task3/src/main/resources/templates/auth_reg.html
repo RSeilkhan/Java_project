@@ -1,0 +1,131 @@
+<html xmlns:th="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layouts/main.html">
+<title layout:fragment="title">Authorization/Registration</title>
+
+<div layout:fragment = "contentPart">
+
+    <div class="row mt-5 content">
+        <div class="col-5">
+            <br>
+            <h5 align="center" th:text = "#{label.login}"></h5>
+            <form action="/signin" method="post" name="frm">
+                <input type="hidden" name="act" value="author">
+                <div class="form-group row mt-3" >
+                    <label for="inputEmail3" class="col-sm-2 col-form-label" th:text = "#{label.email}">Email</label>
+                    <div class="col-sm-10">
+                        <input type="text" name="email" class="form-control"  placeholder="Email">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="inputPassword3" class="col-sm-2 col-form-label" th:text = "#{label.password}">Password</label>
+                    <div class="col-sm-10">
+                        <input type="password" name="password" class="form-control"  placeholder="Password">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-12">
+                        <button type="submit" class="btn btn-danger float-right" th:text = "#{label.login}"></button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="col-5 offset-1">
+            <br>
+            <h5 align="center" th:text = "#{label.reg}"></h5>
+            <form action="/register" method="post" name="frm">
+                <input type="hidden" name="act" value="register">
+                <div class="form-group row mt-3" >
+                    <label for="inputEmail3" class="col-sm-2 col-form-label" onclick="return IsEmpty();" th:text = "#{label.email}" ></label>
+                    <div class="col-sm-10">
+                        <input type="text" name="email" class="form-control" id="inputEmail3" placeholder="Email">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="inputPassword3" class="col-sm-2 col-form-label"  th:text = "#{label.password}"></label>
+                    <div class="col-sm-10">
+                        <input type="password" name="password" class="form-control" id="inputPassword3" placeholder="Password">
+                    </div>
+                </div>
+
+                <div class="form-group row mt-3" >
+                    <label class="col-sm-2 col-form-label" th:text = "#{label.name}"></label>
+                    <div class="col-sm-10">
+                        <input type="text" name="name" class="form-control" placeholder="Name">
+                    </div>
+                </div>
+                <div class="form-group row mt-3" >
+                    <label class="col-sm-2 col-form-label" th:text = "#{label.surname}"></label>
+                    <div class="col-sm-10">
+                        <input type="text" name="surName" class="form-control" placeholder="Surname">
+                    </div>
+                </div>
+
+                <div class="form-group row mt-3" >
+                    <label class="col-sm-2 col-form-label" th:text = "#{label.gender}"></label>
+                    <div class="col-sm-10">
+                        <select name="gender" class="form-control">
+                            <option value="male" selected>Male</option>
+                            <option value="female">Female</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group row mt-3" >
+                    <label class="col-sm-2 col-form-label" th:text = "#{label.tel_number}"></label>
+                    <div class="col-sm-10">
+                        <input type="text" name="tel_number" class="form-control" placeholder="Telephone Number">
+                    </div>
+                </div>
+
+                <div class="form-group row mt-3" >
+                    <label class="col-sm-2 col-form-label" th:text = "#{label.age}"></label>
+                    <div class="col-sm-10">
+                        <input type="number" name="birthday" class="form-control" placeholder="Age">
+                    </div>
+                </div>
+
+                <div class="form-group row mt-3" >
+                    <label class="col-sm-2 col-form-label" th:text = "#{label.something_about}"></label>
+                    <div class="col-sm-10">
+                        <input type="text" name="about" class="form-control" placeholder="About you">
+                    </div>
+                </div>
+
+                <div class="form-group row mt-3" >
+                    <label class="col-sm-2 col-form-label" th:text = "#{label.avatar}"></label>
+                    <div class="col-sm-10">
+                      <textarea type="text" name="avatar" class="form-control" placeholder="Enter there url of image"></textarea> <!--  как перевести placeholder-->
+                    </div>
+                </div>
+
+                <label class="col-sm-2 col-form-label" th:text = "#{label.city}"></label>
+                <select name="u_city" class="custom-select mr-sm-2" id="inlineFormCustomSelect2">
+                    <option th:each="city : ${city}"
+                            th:value="${city.id}"
+                            th:utext="${city.name}">
+                    </option>
+                </select>
+
+                <script language="Javascript">
+                    function IsEmpty() {
+                        if (document.forms['frm'].email.value === "") {
+                            alert("empty email");
+                            return false;
+                        }
+                        return true;
+                    }
+                </script>
+
+                <div class="form-group row">
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-danger float-right" th:text = "#{label.reg}"></button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>
+</html>

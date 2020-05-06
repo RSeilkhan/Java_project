@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.1.0/css/flag-icon.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+
+
+    <nav class="menu">
+        <ul class="menu__list" sec:authorize = "isAnonymous()">
+            <li class="menu__group" ><a th:href="@{/}" class="menu__link"><span style="font-size: 13pt"  th:text = "#{label.home}"></span></a></li>
+            <li class="menu__group"><a th:href="@{'/auth_reg'}" class="menu__link"  th:text = "#{label.reglog}"></a></li>
+        </ul>
+
+        <ul class="menu__list" sec:authorize = "isAuthenticated()">
+            <li class="menu__group" ><a th:href="@{/}" class="menu__link"><span style="font-size: 13pt">Home</span></a></li>
+            <li class="menu__group" sec:authorize="hasRole('ROLE_ADMIN')">
+                <a class="menu__link" th:href="@{'/profile_admin'}" >Admin page</a>
+            </li>
+            <li class="menu__group" sec:authorize="hasRole('ROLE_MODERATOR')">
+                <a class="menu__link" th:href="@{'/profile_moderator'}">Moderator page</a>
+            </li>
+
+            <li class="menu__group" sec:authorize="isAuthenticated()">
+                <a class="menu__link" th:href = "@{'/profile'}">Profile page</a>
+
+            </li>
+
+
+            <form th:action = "@{'/exit'}" id = "logoutForm">
+            </form>
+            <li class="menu__list">
+                <a class="menu__link" href="JavaScript:void(0)" onclick="logout()">Logout</a>
+            </li>
+            <script type="text/javascript">
+                function logout(){
+                    document.getElementById("logoutForm").submit();
+                }
+            </script>
+
+        </ul>
+        </ul>
+
+    </nav>
+
+</head>
+<body >
+
+
+<div class="nav-item dropdown" style="margin-right: 0px; width: 100px">
+    <a class="nav-link dropdown-toggle" th:href="@{'?lang=en'}" id="dropdown09" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Language</span></a>
+    <div class="dropdown-menu" aria-labelledby="dropdown09">
+        <a class="dropdown-item" th:href="@{'?lang=ru'}"><span class="flag-icon flag-icon-ru"> </span>  Russian</a>
+        <a class="dropdown-item" th:href="@{'?lang=en'}"><span class="flag-icon flag-icon-us"> </span>  English</a>
+
+    </div>
+</div>
+
+<title layout:fragment="title">Main</title>
+
+
+
+<div class=" pt-5" layout:fragment = "contentPart" style="min-height: 800px;">
+</div>
+
+
+<footer>
+    <div class="footer-container">
+        <div class="left-col">
+            <img src="blacklogo.png" alt="" class="logo">
+
+            <p class="rights-text">© 2020 Created By Rakhatali All Rights Reserved.</p>
+        </div>
+
+        <div class="center-col">
+            <h1  class="rights-text">Contacts</h1>
+            <div class="linee"></div>
+            <p class="rights-text"> +7(777)977-67-89</p>
+
+
+        </div>
+        <div class="right-col">
+            <h1 >Our Newsletter</h1>
+            <div class="linee"></div>
+            <p class="rights-text">Enter Your Email to get our news and updates.</p>
+            <form action="" class="newsletter-form">
+                <input type="text" class="txtb" placeholder="Enter Your Email">
+                <input type="submit" class="btn" value="submit">
+            </form>
+        </div>
+    </div>
+</footer>
+
+</body>
+
+<style type="text/css">
+
+    body{
+        font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Open Sans, Ubuntu, Fira Sans, Helvetica Neue, sans-serif;
+        background-image: url(templates/images/back2.jpg);
+        background-repeat: repeat-y;
+        background-size: 100%;
+        background-attachment: fixed;
+        font-size: 1.6rem;
+        margin: 0;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+    }
+
+    footer{
+        background: #070707;
+        padding: 40px 0px 20px;
+    }
+
+    .footer-container{
+        max-width: 1350px;
+        margin: auto;
+        max-height: 135px;
+        padding: 0 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap-reverse;
+    }
+
+    .logo{
+        width: 210px;
+    }
+
+
+    .right-col h1{
+        font-size: 26px;
+        color:rgb(224, 222, 222);
+
+    }
+
+    .linee{
+        width: 100px;
+        height: 4px;
+        background: #d72323;
+    }
+
+    .newsletter-form{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+
+    .txtb{
+        flex: 1;
+        padding: 18px 40px;
+        font-size: 16px;
+        color: #293043;
+        background: #ddd;
+        border: none;
+        font-weight: 700;
+        outline: none;
+        border-radius: 30px;
+        min-width: 260px;
+    }
+
+    .btn{
+        padding: 18px 40px;
+        font-size: 16px;
+        color: #f1f1f1;
+        background: #d72323;
+        border: none;
+        font-weight: 700;
+        outline: none;
+        border-radius: 30px;
+        margin-left: 20px;
+        cursor: pointer;
+        transition: opacity .3s linear;
+    }
+
+    .btn:hover{
+        opacity: .7;
+    }
+
+    .rights-text{
+        color:rgb(224, 222, 222);
+
+    }
+
+    .page-content{
+        min-height: 10vh;
+        font-size: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    @media screen and (max-width:960px) {
+        .footer-container{
+            max-width: 600px;
+
+        }
+        .right-col{
+            width: 100%;
+            margin-bottom: 60px;
+        }
+
+        .center-col{
+            width: 100%;
+            text-align: center;
+        }
+
+        .left-col{
+            width: 100%;
+            text-align: center;
+        }
+    }
+
+
+    @media screen and (max-width:700px){
+        .btn{
+            margin: 0;
+            width: 100%;
+            margin-top: 20px;
+        }
+    }
+
+
+</style>
+
+<style type="text/css">
+
+
+    .content{
+        align-content: center;
+        background-color: white;
+        width: 85%;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        text-align: center;
+        margin-top: 20px;
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: 40px;
+        border: 4px groove red;
+
+        border-radius: 5px;
+
+    }
+    .center{
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .table_main {
+        margin-bottom: 40px;
+        border: 5px solid rgb(199, 2, 2);
+        border-collapse: collapse;
+
+        margin-left:auto;
+        margin-right:auto;
+        border-collapse: collapse;
+        width: 60%;
+    }
+
+    .th_main {
+        background-color: rgb(199, 2, 2);
+        padding: 8px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .td_main {
+        padding: 8px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+    .tr_main:hover {background-color:#f5f5f5;}
+
+
+    .storepic{
+        align-content: right;
+
+
+
+    }
+
+    .picture{
+        width: 40%;
+        border-radius: 4px;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        margin-bottom: 40px;
+
+    }
+
+    .tittle{
+        text-align: center;
+        margin: 20px 100px;
+    }
+
+
+
+
+
+
+
+    .logo1 {
+        display: inline-block;
+        vertical-align: top;
+        width: 50px;
+        height: 50px;
+        margin-right: 20px;
+        margin-top: 15px;    /* if you want it vertically middle of the navbar. */
+    }
+
+    .banner{
+        margin-top: 0px;
+        width:100%;
+        height:210px;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
+    }
+
+    .logo-image{
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        overflow: hidden;
+        margin-top: -6px;
+    }
+    /*
+    =====
+    EFFECT FADING OUT FOR SIBLINGS MENU OPTIONS
+    =====
+    */
+
+    .menu:hover .menu__link:not(:hover){
+        color: #cccccc;
+    }
+
+    /*
+    =====
+    MENU STYLES
+    =====
+    */
+
+    /* core styles */
+
+    .menu__list{
+        display: flex;
+        text-align: center;
+        padding-left: 0;
+        margin-top: 0;
+        margin-bottom: 0;
+        list-style: none;
+    }
+
+    .menu__group{
+        flex-grow: 1;
+    }
+
+    .menu__link{
+        display: block;
+    }
+
+    /* skin */
+
+    .menu{
+        overflow: hidden;
+
+        padding: -10px -10px !important;
+        background-color: #070707;
+        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .12), 0 1px 2px 0 rgba(0, 0, 0, .24);
+    }
+
+    .menu a{
+
+        font-size:15px;
+        padding:25px;
+    }
+
+    .menu__link{
+        padding: 2rem 1.5rem;
+
+        font-weight: 700;
+        color: #fff;
+        text-decoration: none;
+        text-transform: uppercase;
+    }
+
+
+    /* hover animation */
+
+    .menu__link{
+        position: relative;
+        overflow: hidden;
+
+        will-change: color;
+        transition: color .25s ease-out;
+    }
+
+    .menu__link::after{
+        content: "";
+        width: 0;
+        height: 3px;
+        background-color: #fff;
+
+        will-change: width;
+        transition: width .1s ease-out;
+
+        position: absolute;
+        bottom: 0;
+    }
+
+
+
+    .menu__link::after{
+        right: 50%;
+        transform: translateX(50%);
+    }
+
+    .menu__link:hover::after{
+        width: 100%;
+        transition-duration: .2s;
+    }
+
+    /*
+    =====
+    DEMO
+    =====
+    */
+
+    @media (min-width: 768px){
+
+        html{
+            font-size: 62.5%;
+        }
+    }
+
+    @media (max-width: 767px){
+
+        html{
+            font-size: 50%;
+        }
+    }
+
+
+
+</style>
+
+</html>
+

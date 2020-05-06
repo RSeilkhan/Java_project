@@ -1,0 +1,84 @@
+<html xmlns:th="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layouts/main.html">
+<title layout:fragment="title">Authorization/Registration</title>
+
+<div layout:fragment = "contentPart">
+
+
+    <div class="row mt-5 content">
+        <div class="col-5 offset-1">
+            <br>
+            <h5 align="center" th:text = "#{label.editprof}"></h5>
+            <form action="/editprof" method="post">
+                <input type="hidden" name="id" th:value="${user.id}">
+                <div class="form-group row mt-3" >
+                    <label for="inputEmail3" class="col-sm-2 col-form-label" th:text = "#{label.email}" ></label>
+                    <div class="col-sm-10">
+                        <input type="text" name="email" class="form-control" id="inputEmail3" placeholder="Email"  th:placeholder="${user.email}" th:value="${user.email}">
+                    </div>
+                </div>
+
+                <div class="form-group row mt-3" >
+                    <label class="col-sm-2 col-form-label" th:text = "#{label.name}"></label>
+                    <div class="col-sm-10">
+                        <input type="text" name="name" class="form-control" placeholder="Name" th:placeholder="${user.name}" th:value="${user.name}">
+                    </div>
+                </div>
+                <div class="form-group row mt-3" >
+                    <label class="col-sm-2 col-form-label" th:text = "#{label.surname}"></label>
+                    <div class="col-sm-10">
+                        <input type="text" name="surname" class="form-control" placeholder="Surname" th:placeholder="${user.surname}" th:value="${user.surname}">
+                    </div>
+                </div>
+
+                <div class="form-group row mt-3" >
+                    <label class="col-sm-2 col-form-label" th:text = "#{label.gender}"></label>
+                    <div class="col-sm-10">
+                        <select name="gender" class="form-control" th:placeholder="${user.gender}" th:value="${user.gender}">
+                            <option value="male" >Male</option>
+                            <option value="female">Female</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group row mt-3" >
+                    <label class="col-sm-2 col-form-label" th:text = "#{label.tel_number}"></label>
+                    <div class="col-sm-10">
+                        <input type="text" name="tel_number" class="form-control" placeholder="Telephone Number" th:placeholder="${user.tel_number}" th:value="${user.tel_number}">
+                    </div>
+                </div>
+
+                <div class="form-group row mt-3" >
+                    <label class="col-sm-2 col-form-label" th:text = "#{label.age}"></label>
+                    <div class="col-sm-10">
+                        <input type="number" name="birthday" class="form-control" placeholder="Age" th:placeholder="${user.birthday}" th:value="${user.birthday}">
+                    </div>
+                </div>
+
+                <div class="form-group row mt-3" >
+                    <label class="col-sm-2 col-form-label" th:text = "#{label.something_about}"></label>
+                    <div class="col-sm-10">
+                        <input type="text" name="about" class="form-control" placeholder="About you" th:placeholder="${user.about}" th:value="${user.about}">
+                    </div>
+                </div>
+
+         <!--       <label class="col-sm-2 col-form-label" th:text = "#{label.city}"></label>
+                <select name="u_city" class="custom-select mr-sm-2" id="inlineFormCustomSelect2">
+                    <option th:each="city : ${city}"
+                            th:value="${city.id}"
+                            th:utext="${city.name}">
+                    </option>
+                </select>-->
+
+                <div class="form-group row">
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-danger float-right" th:text = "#{label.edit}"></button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>
+</html>
